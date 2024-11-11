@@ -1,9 +1,11 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthProivder/AuthProvider";
 
 const Login = () => {
     const { userSignIn, logInWithGoogle } = useContext(AuthContext)
+    const localtion = useLocation()
+    const nagivate = useNavigate()
 
     const handelLogIn = (e) => {
         e.preventDefault()
@@ -15,6 +17,7 @@ const Login = () => {
             .then(userCredential => {
                 const user = userCredential.user;
                 console.log(user)
+                nagivate(localtion?.state ? localtion?.state : '/')
             })
             .catch(error => {
                 console.error(error)
