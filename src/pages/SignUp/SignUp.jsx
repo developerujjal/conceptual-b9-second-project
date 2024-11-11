@@ -3,7 +3,30 @@ import { AuthContext } from "../../AuthProivder/AuthProvider";
 
 const SignUp = () => {
 
-    const {createUser} = useContext(AuthContext)
+    const { createUser } = useContext(AuthContext)
+
+    const handleSingUp = (e) => {
+        e.preventDefault()
+        const form = new FormData(e.currentTarget);
+        const email = form.get('email');
+        const password = form.get('password');
+        const password2 = form.get('cpassword')
+
+        if(password !== password2){
+            return console.log("Please match your Password")
+        }
+
+        
+        createUser(email, password)
+            .then(userCredential => {
+                const user = userCredential.user;
+                console.log(user)
+            })
+            .catch(error => {
+                console.error(error)
+            })
+    }
+
 
     return (
         <div className="flex flex-col justify-center font-[sans-serif] sm:h-screen p-4">
@@ -14,11 +37,11 @@ const SignUp = () => {
                     </a>
                 </div>
 
-                <form>
+                <form onSubmit={handleSingUp}>
                     <div className="space-y-6">
                         <div>
                             <label className="text-gray-800 text-sm mb-2 block">Email Id</label>
-                            <input name="email" type="text" className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-3 rounded-md outline-blue-500" placeholder="Enter email" />
+                            <input name="email" type="email" className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-3 rounded-md outline-blue-500" placeholder="Enter email" />
                         </div>
                         <div>
                             <label className="text-gray-800 text-sm mb-2 block">Password</label>
@@ -38,7 +61,7 @@ const SignUp = () => {
                     </div>
 
                     <div className="!mt-12">
-                        <button type="button" className="w-full py-3 px-4 text-sm tracking-wider font-semibold rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
+                        <button type="submit" className="w-full py-3 px-4 text-sm tracking-wider font-semibold rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none">
                             Create an account
                         </button>
                     </div>
