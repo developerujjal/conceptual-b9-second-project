@@ -1,14 +1,15 @@
 import { Navigate, useLocation } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
 import PropTypes from 'prop-types'; 
+import { AuthContext } from "../AuthProivder/AuthProvider";
+import { useContext } from "react";
 
 
 const PrivateRoute = ({ children }) => {
-    // const {user} = useContext(AuthContext)
-    const { user, loading } = useAuth()
-    const localtion = useLocation()
+    const {user, loading} = useContext(AuthContext)
 
-    if (loading) {
+    const localtion = useLocation()
+    
+  if (loading) {
         return <>
             <div className="flex justify-center items-center h-screen">
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-10 animate-spin fill-blue-600 block mx-auto"
@@ -19,15 +20,16 @@ const PrivateRoute = ({ children }) => {
                 </svg>
             </div>
         </>
-    }
+    } 
 
 
     if (user) {
         return children;
     }
 
-    return <Navigate to={'/login'} state={localtion.pathname}></Navigate>
+    return <Navigate to={'/login'} state={localtion.pathname} replace></Navigate>
 };
+
 
 PrivateRoute.propTypes = {
     children: PropTypes.node

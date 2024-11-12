@@ -1,5 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../../AuthProivder/AuthProvider";
+import { signOut } from "firebase/auth";
+import auth from "../../firebase/firebase.config";
 
 const SignUp = () => {
 
@@ -21,6 +23,7 @@ const SignUp = () => {
             .then(userCredential => {
                 const user = userCredential.user;
                 console.log(user)
+                return signOut(auth)
             })
             .catch(error => {
                 console.error(error)

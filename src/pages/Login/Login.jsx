@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthProivder/AuthProvider";
 
 const Login = () => {
@@ -17,7 +17,8 @@ const Login = () => {
             .then(userCredential => {
                 const user = userCredential.user;
                 console.log(user)
-                nagivate(localtion?.state ? localtion?.state : '/')
+                nagivate(localtion?.state ? localtion?.state :'/')
+                
             })
             .catch(error => {
                 console.error(error)
