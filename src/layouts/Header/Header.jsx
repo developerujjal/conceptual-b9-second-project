@@ -91,11 +91,11 @@ const Header = () => {
                                         className="px-4 py-2 flex items-center rounded-full text-[#333] text-sm border border-gray-300 outline-none hover:bg-gray-100"
                                     >
                                         <img
-                                            src="https://readymadeui.com/profile_6.webp"
+                                            src={user.photoURL}
                                             className="w-7 h-7 mr-3 rounded-full shrink-0"
                                             alt="Profile"
                                         />
-                                        John Doe
+                                        {user?.displayName ? user?.displayName : 'Barry Allen'}
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             className="w-3 fill-gray-400 inline ml-3"

@@ -5,24 +5,34 @@ import auth from "../../firebase/firebase.config";
 
 const SignUp = () => {
 
-    const { createUser } = useContext(AuthContext)
+    const { createUser, updatedUserProfile } = useContext(AuthContext)
 
     const handleSingUp = (e) => {
         e.preventDefault()
         const form = new FormData(e.currentTarget);
+        const name = form.get('name');
+        const photoURL = form.get('photo');
         const email = form.get('email');
         const password = form.get('password');
         const password2 = form.get('cpassword')
 
-        if(password !== password2){
+        if (password !== password2) {
             return console.log("Please match your Password")
         }
 
-        
+
         createUser(email, password)
             .then(userCredential => {
                 const user = userCredential.user;
                 console.log(user)
+                updatedUserProfile(user, name, photoURL)
+                    .then(() => {
+                        console.log('Profile updated!')
+                    })
+                    .catch(error => {
+                        console.error(error)
+                    })
+                    
                 return signOut(auth)
             })
             .catch(error => {
@@ -32,7 +42,7 @@ const SignUp = () => {
 
 
     return (
-        <div className="flex flex-col justify-center font-[sans-serif] sm:h-screen p-4">
+        <div className="flex flex-col justify-center font-[sans-serif] p-4 min-h-[calc(100vh-72px)]">
             <div className="max-w-md w-full mx-auto border border-gray-300 rounded-2xl p-8">
                 <div className="text-center mb-12">
                     <a><img
@@ -42,6 +52,14 @@ const SignUp = () => {
 
                 <form onSubmit={handleSingUp}>
                     <div className="space-y-6">
+                        <div>
+                            <label className="text-gray-800 text-sm mb-2 block">Full Name</label>
+                            <input name="name" type="text" className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-3 rounded-md outline-blue-500" placeholder="Enter email" />
+                        </div>
+                        <div>
+                            <label className="text-gray-800 text-sm mb-2 block">Photo URL</label>
+                            <input name="photo" type="text" className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-3 rounded-md outline-blue-500" placeholder="Enter email" />
+                        </div>
                         <div>
                             <label className="text-gray-800 text-sm mb-2 block">Email Id</label>
                             <input name="email" type="email" className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-3 rounded-md outline-blue-500" placeholder="Enter email" />
